@@ -12,7 +12,12 @@ cd flatmap-client
 flutter run
 ```
 
+## ToDo
 
+* add post to server
+* add collected Notes screen
+* add Profile screen
+* change bottomNavigationBar label for collected Notes
 
 ## Contribution
 
