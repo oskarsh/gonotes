@@ -115,8 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // the top bar for the App
-        appBar: AppBar(title: Text(widget.title)),
         // the tab renderer
         body: _pageOptions[_selectedTab],
         // Floating Center Docken Action Button
@@ -130,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         // the navigation Bar
         bottomNavigationBar: BottomAppBar(
-          color: Colors.teal,
+          color: Colors.white,
           shape: CircularNotchedRectangle(),
           child: new Row(
             mainAxisSize: MainAxisSize.max,
