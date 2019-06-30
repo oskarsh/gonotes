@@ -18,18 +18,19 @@ class AppState with ChangeNotifier {
   final List<Note> _notes = [];
 
   void fetchNotes() {
+    print(" I AM FETCHING NOTES NOW");
     // the API Service will return a Dart Object, which is a Note
-    fetchNotesFromApi().then((result) {
-    _notes.clear();
-    // adding the notes to the global state so everyone can uses them
-    for (var note in result) {
-      print(note.note);
-      print(note.lat);
-      print(note.long);
-      _notes.add(note);
-    }
-  });
-    // notify all the Listeners that the list has been updated
+    fetchNotesFromApi().then((fetchedNotes) {
+      _notes.clear();
+      // adding the notes to the global state so everyone can uses them
+      for (var note in fetchedNotes) {
+        print(note.note);
+        print(note.lat);
+        print(note.long);
+        _notes.add(note);
+      }
+    }); 
+      // notify all the Listeners that the list has been updated
     notifyListeners();
   }
 

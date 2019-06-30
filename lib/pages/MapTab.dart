@@ -23,8 +23,6 @@ class _MapTabState extends State<MapTab> {
   Widget build(BuildContext context) {
     
       final appState = Provider.of<AppState>(context);
-      print("hello wORLD");
-      print(config);
       return new FlutterMap(
       options: new MapOptions(
         center: new LatLng(51.5, -0.09),
