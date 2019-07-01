@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 const baseUrl = "http://localhost:1337";
 final authHeader = {"Authorization": "Bearer " + config["sampleBearerToken"]};
 
-
 Future fetchNotesFromApi() async {
   print("JSON");
 
@@ -20,7 +19,6 @@ Future fetchNotesFromApi() async {
     var collectedNotes = [];
 
     for (var entry in entries) {
-
       var lat = entry["lat"];
       var long = entry["long"];
       var note = entry["note"];
@@ -46,43 +44,25 @@ Future fetchNotesFromApi() async {
   }
 }
 
-postNotesToApi2(Note note) async {
-  var client = new http.Client();
-  print("SENDING POST TO SERVER");
-  var newNote = {
-    "text": note.note.toString(),
-    "lat": note.lat.toString(),
-    "long": note.long.toString()
-  };
-
-  print(newNote);
-  try {
-    var uriResponse = await client.post(
-        baseUrl + '/save/Notes?token=' + config["APIToken"].toString(),
-        body: {"data": "hello"});
-    print("response");
-    print(uriResponse.statusCode);
-  } finally {
-    client.close();
-  }
-}
-
+// in order to send notes to the server a user must
+// be logged in. Since we need to add a relation that WE created
+// the Note we must first get the User Object of ourself and append
+// it to the Note
 postNotesToApi(Note note) async {
-  var client = new http.Client();
-  print("SENDING POST TO SERVER");
+  // getting the our user object from server
+  Response userObject = await Dio()
+      .get(baseUrl + "/Users/me", options: Options(headers: authHeader));
+
   var newNote = {
     "note": note.note.toString(),
     "lat": note.lat,
-    "long": note.long
+    "long": note.long,
+    "user": userObject.data
   };
 
   print(newNote);
   Dio dio = new Dio();
-  var response = await dio.post(
-      baseUrl + "/Notes",
-      data: newNote,
-      options: Options(headers: authHeader)
-      
-      );
+  var response = await dio.post(baseUrl + "/Notes",
+      data: newNote, options: Options(headers: authHeader));
   print(response);
 }
