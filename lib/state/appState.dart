@@ -27,11 +27,19 @@ class AppState with ChangeNotifier {
         print(note.note);
         print(note.lat);
         print(note.long);
-        _notes.add(note);
+        // adding the callBack to the notes
+        Note buildNote = new Note(cb: onNotePress, lat: note.lat, long: note.long, note: note.note);
+        _notes.add(buildNote);
       }
     }); 
       // notify all the Listeners that the list has been updated
     notifyListeners();
+  }
+
+  void onNotePress(note, lat, long) {
+    print("YEEEES HAHAHAHA");
+    print(note);
+    print("WOW COOOL");
   }
 
   void addNote(Note note) async{
