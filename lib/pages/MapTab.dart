@@ -1,4 +1,3 @@
-import 'package:gonotes/models/Note.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';

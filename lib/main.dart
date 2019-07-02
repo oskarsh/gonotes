@@ -6,6 +6,7 @@ import 'package:gonotes/widgets/NoteDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:gonotes/state/appState.dart';
 import 'package:gonotes/models/Note.dart';
+import 'package:rounded_modal/rounded_modal.dart';
 
 void main() => runApp(MyApp());
 
@@ -40,9 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final _pageOptions = [NotesTab(), MapTab(), ProfileTab()];
 
   void _showNoteDialog() async {
-  final myController = TextEditingController();
-  final appState = Provider.of<AppState>(context);
-
+    final myController = TextEditingController();
+    final appState = Provider.of<AppState>(context);
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -51,49 +51,44 @@ class _MyHomePageState extends State<MyHomePage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Container(
-    height: 450.0,
-    width: 400.0,
-    child: Column(children: <Widget>[
-      Container(
-          height: 75,
-          width: 450,
-          color: Colors.teal,
-          child: Text("Say someing nice")),
-      TextField(
-        controller: myController,
-        decoration: InputDecoration(
-            border: InputBorder.none, hintText: 'Enter a search term'),
-      ),
-      RaisedButton(
-          onPressed: () {
-            appState.addNote(new Note(lat: 0, long: 0, note: myController.text));
-            
-          },
-          textColor: Colors.white,
-          padding: const EdgeInsets.all(0.0),
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color.fromRGBO(115, 182, 230, 1.0),
-                  Color.fromRGBO(0, 150, 136, 1.0),
-                ],
-              ),
-            ),
-            padding: const EdgeInsets.all(10.0),
-            child: const Text(
-              'Add Note',
-              style: TextStyle(fontSize: 20)
-            ),
-          )
-      )
-    ]),
-  )
-  );
+                height: 450.0,
+                width: 400.0,
+                child: Column(children: <Widget>[
+                  Container(
+                      height: 75,
+                      width: 450,
+                      color: Colors.teal,
+                      child: Text("Say someing nice")),
+                  TextField(
+                    controller: myController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter a search term'),
+                  ),
+                  RaisedButton(
+                      onPressed: () {
+                        appState.addNote(
+                            new Note(lat: 0, long: 0, note: myController.text));
+                      },
+                      textColor: Colors.white,
+                      padding: const EdgeInsets.all(0.0),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: <Color>[
+                              Color.fromRGBO(115, 182, 230, 1.0),
+                              Color.fromRGBO(0, 150, 136, 1.0),
+                            ],
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(10.0),
+                        child: const Text('Add Note',
+                            style: TextStyle(fontSize: 20)),
+                      ))
+                ]),
+              ));
+        });
   }
-);
-  }
-
 
   void _onPressFloatingButton() {
     setState(() {
@@ -106,14 +101,70 @@ class _MyHomePageState extends State<MyHomePage> {
           // getting the global appState
           final appState = Provider.of<AppState>(context);
           // if the FloatingButton is pressed ask the server if there are any new markers
-          appState.fetchNotes();
+          appState.fetchNotes(_openNoteDialog);
         });
       }
     });
   }
 
+  void _openNoteDialog(note, lat, long) async{
+    final appState = Provider.of<AppState>(context);
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Container(
+                height: 450.0,
+                width: 400.0,
+                child: Column(children: <Widget>[
+                  Container(
+                      height: 75,
+                      width: 450,
+                      color: Colors.teal,
+                      child: Text(appState.getActiveNote())),
+                  RaisedButton(
+                      onPressed: () {
+                        print("ADDING NOTE");
+                      },
+                      textColor: Colors.white,
+                      padding: const EdgeInsets.all(0.0),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: <Color>[
+                              Color.fromRGBO(115, 182, 230, 1.0),
+                              Color.fromRGBO(0, 150, 136, 1.0),
+                            ],
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(10.0),
+                        child: const Text('Collect Note',
+                            style: TextStyle(fontSize: 20)),
+                      ))
+                ]),
+              ));
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+
+    print(appState.getActiveNote());
+
+    // if (!appState.getDialogHidden()) {
+    //   showRoundedModalBottomSheet(
+    //       context: context,
+    //       radius: 10.0, // This is the default
+    //       color: Colors.white, // Also default
+    //       builder: (context) => Column(children: <Widget>[
+    //         Text("Hello"),
+    //       ],) );
+    // }
+
     return Scaffold(
         // the tab renderer
         body: _pageOptions[_selectedTab],

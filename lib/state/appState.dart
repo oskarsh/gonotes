@@ -16,8 +16,10 @@ import 'package:http/http.dart' as http;
 class AppState with ChangeNotifier {
 
   final List<Note> _notes = [];
+  String _activeNote;
+  bool _dialogHidden = true;
 
-  void fetchNotes() {
+  void fetchNotes(Function cb) {
     print(" I AM FETCHING NOTES NOW");
     // the API Service will return a Dart Object, which is a Note
     fetchNotesFromApi().then((fetchedNotes) {
@@ -28,7 +30,7 @@ class AppState with ChangeNotifier {
         print(note.lat);
         print(note.long);
         // adding the callBack to the notes
-        Note buildNote = new Note(cb: onNotePress, lat: note.lat, long: note.long, note: note.note);
+        Note buildNote = new Note(cb: cb, lat: note.lat, long: note.long, note: note.note);
         _notes.add(buildNote);
       }
     }); 
@@ -39,7 +41,10 @@ class AppState with ChangeNotifier {
   void onNotePress(note, lat, long) {
     print("YEEEES HAHAHAHA");
     print(note);
-    print("WOW COOOL");
+    _activeNote = note;
+    _dialogHidden = false;
+    print(_dialogHidden);
+    notifyListeners();
   }
 
   void addNote(Note note) async{
@@ -56,5 +61,15 @@ class AppState with ChangeNotifier {
   // getter for the _notes
   List<Note> getNotes() {
     return _notes;
+  }
+
+  bool getDialogHidden() {
+    return _dialogHidden;
+  }
+
+  String getActiveNote() {
+    print("ACTIVE NOTE IS");
+    
+    return _activeNote;
   }
 }
