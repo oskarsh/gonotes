@@ -30,7 +30,7 @@ class AppState with ChangeNotifier {
         print(note.lat);
         print(note.long);
         // adding the callBack to the notes
-        Note buildNote = new Note(cb: cb, lat: note.lat, long: note.long, note: note.note);
+        Note buildNote = new Note(cb: cb, setActive: onNotePress, lat: note.lat, long: note.long, note: note.note);
         _notes.add(buildNote);
       }
     }); 
@@ -68,8 +68,6 @@ class AppState with ChangeNotifier {
   }
 
   String getActiveNote() {
-    print("ACTIVE NOTE IS");
-    
     return _activeNote;
   }
 }

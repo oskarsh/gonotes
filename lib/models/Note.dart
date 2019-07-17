@@ -23,8 +23,9 @@ class Note extends Marker{
   double lat;
   double long;
   Function cb;
+  Function setActive;
 
-  Note({this.note, this.lat, this.long, this.cb}) : super(width: 80.0,
+  Note({this.note, this.lat, this.long, this.cb, this.setActive}) : super(width: 80.0,
               height: 80.0,
               point: new LatLng(lat, long),
               builder: (ctx) =>
@@ -33,6 +34,7 @@ class Note extends Marker{
                   icon: Icon(Icons.data_usage),
                   onPressed: () {
                     cb(note, lat, long);
+                    setActive(note, lat, long);
                   },
                 ),
               ),);

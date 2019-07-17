@@ -127,6 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Text(appState.getActiveNote())),
                   RaisedButton(
                       onPressed: () {
+                        print(appState.getActiveNote());
                         print("ADDING NOTE");
                       },
                       textColor: Colors.white,
@@ -186,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                  icon: Icon(Icons.beenhere),
+                  icon: Icon(Icons.label),
                   onPressed: () {
                     setState(() {
                       _iconData = Icons.map;
