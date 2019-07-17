@@ -127,8 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Text(appState.getActiveNote())),
                   RaisedButton(
                       onPressed: () {
-                        print(appState.getActiveNote());
-                        print("ADDING NOTE");
+                        appState.collectNote(appState.getActiveNoteId());
                       },
                       textColor: Colors.white,
                       padding: const EdgeInsets.all(0.0),

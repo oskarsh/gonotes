@@ -22,6 +22,7 @@ Future fetchNotesFromApi() async {
       var lat = entry["lat"];
       var long = entry["long"];
       var note = entry["note"];
+      var id = entry["id"];
 
       // checking the types
       if (lat.runtimeType == int) {
@@ -35,13 +36,35 @@ Future fetchNotesFromApi() async {
         long = long + .0;
       }
 
-      collectedNotes.add(new Note(lat: lat, long: long, note: note));
+      collectedNotes.add(new Note(lat: lat, long: long, note: note, id: id));
     }
     return collectedNotes;
   } catch (e) {
     print("ERROR");
     print(e);
   }
+}
+
+
+collectNoteWithAPI(id) async {
+
+  print("COLLECTING NOTE: "+ id.toString());
+
+  // getting the our user object from server
+  Response userObject = await Dio()
+      .get(baseUrl + "/Users/me", options: Options(headers: authHeader));
+
+  // add to collectors
+  var data = {
+    "collectors": [
+      userObject.data]
+  };
+  print("SENDING");
+  print(data);
+
+  Dio dio = new Dio();
+  var response = await dio.put(baseUrl + "/Notes/"+id.toString(),
+      data: data, options: Options(headers: authHeader));    
 }
 
 // in order to send notes to the server a user must
@@ -55,6 +78,7 @@ postNotesToApi(Note note) async {
 
   var newNote = {
     "note": note.note.toString(),
+    "id": note.id,
     "lat": note.lat,
     "long": note.long,
     "user": userObject.data
