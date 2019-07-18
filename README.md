@@ -17,7 +17,6 @@ flutter run
 * add login flow
 * add collected Notes screen
 * add Profile screen
-* change bottomNavigationBar label for collected Notes
 
 ## Contribution
 
