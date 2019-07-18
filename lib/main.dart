@@ -153,18 +153,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context);
 
-    print(appState.getActiveNote());
-
-    // if (!appState.getDialogHidden()) {
-    //   showRoundedModalBottomSheet(
-    //       context: context,
-    //       radius: 10.0, // This is the default
-    //       color: Colors.white, // Also default
-    //       builder: (context) => Column(children: <Widget>[
-    //         Text("Hello"),
-    //       ],) );
-    // }
-
     return Scaffold(
         // the tab renderer
         body: _pageOptions[_selectedTab],

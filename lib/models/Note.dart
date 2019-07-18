@@ -34,8 +34,6 @@ class Note extends Marker{
                 child: new IconButton(
                   icon: Icon(Icons.data_usage),
                   onPressed: () {
-                    print("HELLLLO");
-                    print(id);
                     cb(note, lat, long);
                     setActive(note, lat, long, id);
                   },
