@@ -61,7 +61,7 @@ class _NotesTabState extends State<NotesTab> {
         color: Colors.teal,
         child: Center(
           // child: Loading(indicator: BallBeatIndicator(), size: 100.0),
-          child: Text("LOADING"),
+          child: Text("LOADING LIST"),
         ),
       );
   }
