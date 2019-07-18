@@ -8,7 +8,7 @@
 
 ```bash
 git clone https://github.com/daehruoydeef/gonotes
-cd flatmap-client
+cd gonotes
 flutter run
 ```
 
