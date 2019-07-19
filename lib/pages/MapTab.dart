@@ -9,8 +9,7 @@ import 'package:gonotes/apiToken.dart';
 import 'package:gonotes/api/LocationService.dart';
 
 class MapTab extends StatefulWidget {
-  
-  MapTab();  
+  MapTab();
 
   @override
   State<StatefulWidget> createState() {
@@ -19,41 +18,42 @@ class MapTab extends StatefulWidget {
 }
 
 class _MapTabState extends State<MapTab> {
-  
   Timer timer;
-  double lat = 0;
-  double long = 0; 
+  double _lat = 0;
+  double _long = 0;
 
   void didChangeDependencies() {
-    timer = Timer.periodic(Duration(seconds: 15), (Timer t) => getCurrentPosition());
+    timer = Timer.periodic(
+        // Duration(seconds: 15), (Timer t) => getCurrentPosition());
   }
 
   void getCurrentPosition() {
-  print("searching");
-  getLocation().then((location) {
+    print("searching");
+    getLocation().then((location) {
       double lat = location.latitude;
       double long = location.longitude;
       setState(() {
-        lat: lat;
-        long: long;
+        _lat = lat;
+        _long = long;
       });
     });
+    print("inside location");
+    print(_lat);
+    print(_long);
   }
 
   @override
-void dispose() {
-  timer?.cancel();
-  super.dispose();
-}
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-      final appState = Provider.of<AppState>(context);
-      return new FlutterMap(
-      options: new MapOptions(
-        center: new LatLng(lat, long),
-        zoom: 5.0
-      ),
+    print(_lat);
+    final appState = Provider.of<AppState>(context);
+    return new FlutterMap(
+      options: new MapOptions(center: new LatLng(_lat, _long), zoom: 5.0),
       layers: [
         new TileLayerOptions(
           urlTemplate: "https://api.tiles.mapbox.com/v4/"
@@ -71,5 +71,3 @@ void dispose() {
     );
   }
 }
-
-
