@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:gonotes/state/appState.dart';
 import 'package:gonotes/apiToken.dart';
+import 'package:gonotes/api/LocationService.dart';
 
 class MapTab extends StatefulWidget {
   
@@ -16,15 +19,39 @@ class MapTab extends StatefulWidget {
 }
 
 class _MapTabState extends State<MapTab> {
+  
+  Timer timer;
+  double lat = 0;
+  double long = 0; 
 
+  void didChangeDependencies() {
+    timer = Timer.periodic(Duration(seconds: 15), (Timer t) => getCurrentPosition());
+  }
+
+  void getCurrentPosition() {
+  print("searching");
+  getLocation().then((location) {
+      double lat = location.latitude;
+      double long = location.longitude;
+      setState(() {
+        lat: lat;
+        long: long;
+      });
+    });
+  }
+
+  @override
+void dispose() {
+  timer?.cancel();
+  super.dispose();
+}
 
   @override
   Widget build(BuildContext context) {
-    
       final appState = Provider.of<AppState>(context);
       return new FlutterMap(
       options: new MapOptions(
-        center: new LatLng(51.5, -0.09),
+        center: new LatLng(lat, long),
         zoom: 5.0
       ),
       layers: [

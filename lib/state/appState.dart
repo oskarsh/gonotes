@@ -6,12 +6,11 @@
 // DESCRIPTION: This Class is used as a global state
 //
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gonotes/api/NoteService.dart';
 import 'package:gonotes/models/Note.dart';
 import 'package:gonotes/api/LocationService.dart';
-import 'package:http/http.dart' as http;
+import 'package:latlong/latlong.dart';
 
 class AppState with ChangeNotifier {
   final List<Note> _notes = [];
@@ -86,6 +85,8 @@ class AppState with ChangeNotifier {
       postNotesToApi(new Note(lat: lat, long: long, note: text));
     });
   }
+
+
 
   // getter for the _notes
   List<Note> getNotes() {
