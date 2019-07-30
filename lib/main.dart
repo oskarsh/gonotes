@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gonotes/pages/MapTab.dart';
 import 'package:gonotes/pages/Notes.dart';
 import 'package:gonotes/pages/Profile.dart';
-import 'package:gonotes/widgets/NoteDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:gonotes/state/appState.dart';
 import 'package:gonotes/models/Note.dart';

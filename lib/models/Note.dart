@@ -12,7 +12,6 @@
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
-import 'package:gonotes/widgets/NoteDialog.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:gonotes/state/appState.dart';
 

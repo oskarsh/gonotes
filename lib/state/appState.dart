@@ -11,6 +11,8 @@ import 'package:gonotes/api/NoteService.dart';
 import 'package:gonotes/models/Note.dart';
 import 'package:gonotes/api/LocationService.dart';
 import 'package:latlong/latlong.dart';
+import 'package:flutter_map/flutter_map.dart';
+
 
 class AppState with ChangeNotifier {
   final List<Note> _notes = [];
@@ -91,6 +93,23 @@ class AppState with ChangeNotifier {
   // getter for the _notes
   List<Note> getNotes() {
     return _notes;
+  }
+
+  Future getCurrentPositionAsMarker() async{
+    getLocation().then((location) {
+      var lat = location.latitude;
+      var long = location.longitude;
+      Marker(
+        width: 80.0,
+        height: 80.0,
+        point: LatLng(lat, long),
+        builder: (ctx) => Container(
+          key: Key('purple'),
+          child: FlutterLogo(colors: Colors.purple),
+        ),
+      );
+      // return marker;
+    });
   }
 
   bool getDialogHidden() {

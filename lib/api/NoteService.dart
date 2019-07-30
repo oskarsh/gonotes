@@ -5,7 +5,7 @@ import 'package:gonotes/apiToken.dart';
 import 'package:dio/dio.dart';
 import 'package:gonotes/api/LocationService.dart';
 
-const baseUrl = "https://nasty-mule-52.localtunnel.me";
+const baseUrl = "http://localhost:1337";
 final authHeader = {"Authorization": "Bearer " + config["sampleBearerToken"]};
 
 // gets all notes from the api
