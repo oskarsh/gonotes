@@ -24,7 +24,7 @@ List<Marker> _markers = [
     height: 80.0,
     point: LatLng(51.5, -0.09),
     builder: (ctx) => Container(
-      child: Icon(Icons.change_history),
+      child: Icon(Icons.brightness_1),
     ),
   ),
 ];
@@ -34,13 +34,14 @@ class _MapTabState extends State<MapTab> {
   double _lat = 0;
   double _long = 0;
   Marker _marker;
-  Timer _timer;
   int _markerIndex = 0;
+  MapController _mapController;
 
   @override
   void initState() {
     super.initState();
     _marker = _markers[_markerIndex];
+    _mapController = MapController();
 
     var geolocator = Geolocator();
     var locationOptions =
@@ -57,14 +58,22 @@ class _MapTabState extends State<MapTab> {
         point: LatLng(lat, long),
         builder: (ctx) => Container(
           key: Key('purple'),
-          child: new Icon(Icons.change_history),
+          child: new Icon(Icons.brightness_1),
         ),
       );
-      _markers.add(currPosMarker);
+
+      print("MARKERS LENGTH");
+      print(_markers.length);
+      print("INDEX");
+      print(_markerIndex);
       setState(() {
         _marker = _markers[_markerIndex];
         _markerIndex = (_markerIndex + 1) % _markers.length;
+        _lat = lat;
+        _long = long;
       });
+      _markers.add(currPosMarker);
+      _mapController.move(LatLng(lat, long), 17.0);
       print(position == null
           ? 'Unknown'
           : position.latitude.toString() +
@@ -74,35 +83,20 @@ class _MapTabState extends State<MapTab> {
   }
 
   void didChangeDependencies() {
-    // Duration(seconds: 15), (Timer t) => getCurrentPosition());
+    // _mapController.move(LatLng(_lat, _long), 5.0);
   }
 
-  void getCurrentPosition() {
-    print("searching");
-    getLocation().then((location) {
-      double lat = location.latitude;
-      double long = location.longitude;
-      setState(() {
-        _lat = lat;
-        _long = long;
-      });
-    });
-    print("inside location");
-    print(_lat);
-    print(_long);
-  }
 
   @override
   void dispose() {
-    timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_lat);
     final appState = Provider.of<AppState>(context);
     return new FlutterMap(
+      mapController: _mapController,
       options: new MapOptions(center: new LatLng(_lat, _long), zoom: 5.0),
       layers: [
         new TileLayerOptions(

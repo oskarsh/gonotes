@@ -31,7 +31,7 @@ class Note extends Marker{
               builder: (ctx) =>
               new Container(
                 child: new IconButton(
-                  icon: Icon(Icons.data_usage),
+                  icon: Icon(Icons.album),
                   onPressed: () {
                     cb(note, lat, long);
                     setActive(note, lat, long, id);
